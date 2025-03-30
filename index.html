@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MintSpace - Desarrollo de Software a Medida</title>
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <header>
+        <div class="logo">MintSpace</div>
+        <nav>
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <section id="inicio" class="hero">
+        <div class="hero-content">
+            <h1>Soluciones de Software Personalizadas</h1>
+            <p>Desarrollamos programas a medida para empresas y particulares</p>
+            <a href="#contacto" class="cta-button">Contáctanos</a>
+        </div>
+    </section>
+
+    <section id="servicios" class="services">
+        <h2>Nuestros Servicios</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <i class="fas fa-laptop-code"></i>
+                <h3>Desarrollo Personalizado</h3>
+                <p>Software diseñado específicamente para tus necesidades</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-mobile-alt"></i>
+                <h3>Aplicaciones Móviles</h3>
+                <p>Apps iOS y Android para tu negocio o proyecto personal</p>
+            </div>
+            <div class="service-card">
+                <i class="fas fa-cloud"></i>
+                <h3>Soluciones en la Nube</h3>
+                <p>Sistemas accesibles desde cualquier lugar</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="nosotros" class="about">
+        <div class="about-content">
+            <h2>Sobre MintSpace</h2>
+            <p>Somos un equipo apasionado por crear soluciones tecnológicas que impulsen tu negocio o proyecto personal. Combinamos diseño intuitivo con funcionalidad robusta.</p>
+        </div>
+    </section>
+
+    <section id="contacto" class="contact">
+        <h2>Contacto</h2>
+        <div class="contact-container">
+            <div class="contact-info">
+                <p><i class="fas fa-envelope"></i> mintspace42@gmail.com</p>
+                <div class="social">
+                    <a href="https://instagram.com/mint_dev" target="_blank"><i class="fab fa-instagram"></i> @mint_dev</a>
+                </div>
+            </div>
+            <form id="mintspace-form" class="contact-form" action="https://formspree.io/f/mgvallgq" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="mensaje" placeholder="Cuéntanos sobre tu proyecto" required></textarea>
+                <input type="hidden" name="_subject" value="Nuevo mensaje desde MintSpace">
+                <button type="submit">Enviar</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Mensaje de confirmación -->
+    <div id="confirmation-overlay" class="form-confirmation-overlay"></div>
+    <div id="confirmation-box" class="form-confirmation">
+        <h3>¡Gracias por contactarnos!</h3>
+        <p>Hemos recibido tu mensaje y te responderemos en breve.</p>
+        <button class="close-btn">Cerrar</button>
+    </div>
+
+    <footer>
+        <p>&copy; <span id="current-year"></span> MintSpace. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.getElementById('current-year').textContent = new Date().getFullYear();
+
+        document.getElementById('mintspace-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const form = e.target;
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Enviando...';
+            
+            fetch(form.action, {
+                method: 'POST',
+                body: new FormData(form),
+                headers: { 'Accept': 'application/json' }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById('confirmation-overlay').style.display = 'block';
+                    document.getElementById('confirmation-box').style.display = 'block';
+                    form.reset();
+                } else {
+                    alert('Error al enviar. Por favor inténtalo nuevamente.');
+                }
+            })
+            .finally(() => {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Enviar';
+            });
+        });
+
+        document.querySelector('.close-btn').addEventListener('click', function() {
+            document.getElementById('confirmation-overlay').style.display = 'none';
+            document.getElementById('confirmation-box').style.display = 'none';
+        });
+
+        document.getElementById('confirmation-overlay').addEventListener('click', function() {
+            this.style.display = 'none';
+            document.getElementById('confirmation-box').style.display = 'none';
+        });
+    </script>
+</body>
+</html>
